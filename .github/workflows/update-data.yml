@@ -2,22 +2,12 @@ name: Update eBird Observations
 
 on:
   schedule:
-    # ── Times are UTC. Florida observes Eastern Time: ──────────────
-    #    EST (UTC-5): Nov–Mar  |  EDT (UTC-4): Mar–Nov
-    #
-    #  Target 4 AM Eastern:
-    #    4 AM EST = 09:00 UTC  /  4 AM EDT = 08:00 UTC
     - cron: '0 9 * * *'
-    #
-    #  Target 1 PM Eastern:
-    #    1 PM EST = 18:00 UTC  /  1 PM EDT = 17:00 UTC
     - cron: '0 18 * * *'
-
-  # Allow a manual run from the GitHub Actions UI (useful for first setup)
   workflow_dispatch:
 
 permissions:
-  contents: write   # needed to commit observations.json back to the repo
+  contents: write
 
 jobs:
   update:
@@ -34,7 +24,7 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install -r requirements.txt
 
       - name: Fetch eBird observations
         env:
