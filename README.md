@@ -8,9 +8,7 @@ sightings within 10 miles of Koreshan State Park in Estero, Florida — powered 
 
 ## 🗺️ Live Map
 
-**[View the Map →](https://your-github-username.github.io/your-repo-name/)**
-
-> Replace the link above with your actual GitHub Pages URL after setup.
+**[View the Map →](https://goodbirds-org.github.io/ksp2026/)**
 
 ---
 
