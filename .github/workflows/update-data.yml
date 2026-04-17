@@ -1,0 +1,54 @@
+name: Update eBird Observations
+
+on:
+  schedule:
+    # ── Times are UTC. Florida observes Eastern Time: ──────────────
+    #    EST (UTC-5): Nov–Mar  |  EDT (UTC-4): Mar–Nov
+    #
+    #  Target 4 AM Eastern:
+    #    4 AM EST = 09:00 UTC  /  4 AM EDT = 08:00 UTC
+    - cron: '0 9 * * *'
+    #
+    #  Target 1 PM Eastern:
+    #    1 PM EST = 18:00 UTC  /  1 PM EDT = 17:00 UTC
+    - cron: '0 18 * * *'
+
+  # Allow a manual run from the GitHub Actions UI (useful for first setup)
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed to commit observations.json back to the repo
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch eBird observations
+        env:
+          EBIRD_API_KEY: ${{ secrets.EBIRD_API_KEY }}
+        run: python scripts/fetch_data.py
+
+      - name: Commit and push updated data
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name  "github-actions[bot]"
+          git add data/observations.json
+          if git diff --staged --quiet; then
+            echo "No changes — observations.json is already up to date."
+          else
+            git commit -m "🐦 Update eBird observations [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+            git push
+          fi
