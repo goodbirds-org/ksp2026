@@ -22,18 +22,22 @@ if not API_KEY:
 CENTER_LAT = 26.4317      # Koreshan State Park, Estero FL
 CENTER_LNG = -81.8187
 DIST_KM    = 32           # 20 miles ≈ 32.19 km
-BACK_DAYS  = 2            # Look back this many days (eBird max is 30)
+BACK_DAYS  = 3            # Look back this many days (eBird max is 30)
 MAX_RESULTS = 10000       # eBird hard max
 
 # species code → display info
 SPECIES = {
     "burowl": {
         "name":  "Burrowing Owl",
-        "color": "#8B4513",   # saddlebrown
+        "color": "#8B4513",
     },
     "rosspo1": {
         "name":  "Roseate Spoonbill",
-        "color": "#FF69B4",   # hotpink
+        "color": "#FF69B4",
+    },
+    "limpki": {
+        "name":  "Limpkin",
+        "color": "#D2691E",
     },
 }
 

@@ -201,16 +201,21 @@
     <h1>🦉 Bird Sightings Near<br>Koreshan State Park</h1>
 
     <div class="legend-row">
-        <div class="legend-dot" style="background:#8B4513;"></div>
-        <span>Burrowing Owl</span>
-        <span class="legend-count" id="owl-count" style="color:#8B4513;">—</span>
-    </div>
-    <div class="legend-row">
-        <div class="legend-dot" style="background:#FF69B4;"></div>
-        <span>Roseate Spoonbill</span>
-        <span class="legend-count" id="spoonbill-count" style="color:#FF69B4;">—</span>
-    </div>
-    <p class="legend-subtitle">locations · past 2 days · within 20 mi</p>
+		<div class="legend-dot" style="background:#8B4513;"></div>
+		<span>Burrowing Owl</span>
+		<span class="legend-count" id="owl-count" style="color:#8B4513;">—</span>
+	</div>
+	<div class="legend-row">
+		<div class="legend-dot" style="background:#FF69B4;"></div>
+		<span>Roseate Spoonbill</span>
+		<span class="legend-count" id="spoonbill-count" style="color:#FF69B4;">—</span>
+	</div>
+	<div class="legend-row">
+		<div class="legend-dot" style="background:#D2691E;"></div>
+		<span>Limpkin</span>
+		<span class="legend-count" id="limpkin-count" style="color:#D2691E;">—</span>
+	</div>
+	<p class="legend-subtitle">locations · past 3 days · within 20 mi</p>
 
     <hr class="divider">
 
@@ -256,6 +261,7 @@ const RINGS = [
 const FALLBACK_COLORS = {
     burowl:  '#8B4513',
     rosspo1: '#FF69B4',
+    limpki:  '#D2691E',
 };
 
 // ── Init Map ─────────────────────────────────────────────────
@@ -442,37 +448,30 @@ async function loadData() {
             );
         });
 
-        let owlCount = 0, spoonCount = 0;
+        let owlCount = 0, spoonCount = 0, limpkinCount = 0;
 
-        Object.values(groups).forEach(grp => {
-            const m = L.marker([grp.lat, grp.lng], { icon: makeIcon(grp.color) });
+		Object.values(groups).forEach(grp => {
+			const m = L.marker([grp.lat, grp.lng], { icon: makeIcon(grp.color) });
+			m.bindTooltip(tooltipHTML(grp), {
+				direction: 'top', offset: [0, -12], sticky: false,
+			});
+			m.bindPopup(popupHTML(grp), { maxWidth: 310, maxHeight: 420 });
+			markerLayer.addLayer(m);
 
-            m.bindTooltip(tooltipHTML(grp), {
-                direction: 'top',
-                offset:    [0, -12],
-                sticky:    false,
-            });
+			if (grp.speciesCode === 'burowl')  owlCount++;
+			if (grp.speciesCode === 'rosspo1') spoonCount++;
+		if (grp.speciesCode === 'limpki')  limpkinCount++;
+	});
 
-            m.bindPopup(popupHTML(grp), {
-                maxWidth:  310,
-                maxHeight: 420,
-            });
+	document.getElementById('owl-count').textContent      = owlCount;
+	document.getElementById('spoonbill-count').textContent = spoonCount;
+	document.getElementById('limpkin-count').textContent   = limpkinCount;
 
-            markerLayer.addLayer(m);
-
-            if (grp.speciesCode === 'burowl')  owlCount++;
-            if (grp.speciesCode === 'rosspo1') spoonCount++;
-        });
-
-        // Update sidebar counts
-        document.getElementById('owl-count').textContent      = owlCount;
-        document.getElementById('spoonbill-count').textContent = spoonCount;
-
-        const total = owlCount + spoonCount;
-        document.getElementById('status-msg').textContent =
-            total > 0
-                ? `${total} location${total > 1 ? 's' : ''} with sightings`
-                : 'No sightings found in the past 2 days';
+	const total = owlCount + spoonCount + limpkinCount;
+	document.getElementById('status-msg').textContent =
+		total > 0
+			? `${total} location${total > 1 ? 's' : ''} with sightings`
+			: 'No sightings found in the past 3 days';
 
         // Last-updated timestamp (display in Eastern time)
         if (data.lastUpdated && data.lastUpdated !== 'never') {
