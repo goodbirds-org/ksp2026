@@ -21,7 +21,7 @@ if not API_KEY:
 
 CENTER_LAT = 26.4317      # Koreshan State Park, Estero FL
 CENTER_LNG = -81.8187
-DIST_KM    = 16           # 10 miles ≈ 16.09 km  (eBird max is 50 km)
+DIST_KM    = 32           # 20 miles ≈ 32.19 km
 BACK_DAYS  = 2            # Look back this many days (eBird max is 30)
 MAX_RESULTS = 10000       # eBird hard max
 

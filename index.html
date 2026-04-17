@@ -210,23 +210,27 @@
         <span>Roseate Spoonbill</span>
         <span class="legend-count" id="spoonbill-count" style="color:#FF69B4;">—</span>
     </div>
-    <p class="legend-subtitle">locations · past 2 days · within 10 mi</p>
+    <p class="legend-subtitle">locations · past 2 days · within 20 mi</p>
 
     <hr class="divider">
 
     <div class="ring-legend-title">Search Rings</div>
-    <div class="ring-row">
-        <div class="ring-sample" style="border-top:1.5px dashed #ccc;"></div>
-        <span>1 mile</span>
-    </div>
-    <div class="ring-row">
-        <div class="ring-sample" style="border-top:1.5px dashed #888;"></div>
-        <span>5 miles</span>
-    </div>
-    <div class="ring-row">
-        <div class="ring-sample" style="border-top:2px solid #444;"></div>
-        <span>10 miles</span>
-    </div>
+	<div class="ring-row">
+		<div class="ring-sample" style="border-top:1.5px dashed #aaa;"></div>
+		<span>1 mile</span>
+	</div>
+	<div class="ring-row">
+		<div class="ring-sample" style="border-top:1.5px dashed #777;"></div>
+		<span>5 miles</span>
+	</div>
+	<div class="ring-row">
+		<div class="ring-sample" style="border-top:2px solid #444;"></div>
+		<span>10 miles</span>
+	</div>
+	<div class="ring-row">
+		<div class="ring-sample" style="border-top:2.5px dashed #1a1a1a;"></div>
+		<span>20 miles</span>
+	</div>
 
     <hr class="divider">
 
@@ -242,9 +246,10 @@ const CENTER        = [26.4317, -81.8187];   // Koreshan State Park, Estero FL
 const MILES_TO_M    = 1609.344;
 
 const RINGS = [
-    { miles: 1,  color: '#cccccc', weight: 1.5, dash: '4 7'   },
-    { miles: 5,  color: '#888888', weight: 1.5, dash: '8 5'   },
+    { miles: 1,  color: '#aaaaaa', weight: 1.5, dash: '5 4'   },
+    { miles: 5,  color: '#777777', weight: 1.5, dash: '9 5'   },
     { miles: 10, color: '#444444', weight: 2.0, dash: null     },
+    { miles: 20, color: '#1a1a1a', weight: 2.5, dash: '14 5'  },
 ];
 
 // Fallback colours if the JSON doesn't include them
@@ -254,7 +259,7 @@ const FALLBACK_COLORS = {
 };
 
 // ── Init Map ─────────────────────────────────────────────────
-const map = L.map('map', { center: CENTER, zoom: 11 });
+const map = L.map('map', { center: CENTER, zoom: 10 });
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
